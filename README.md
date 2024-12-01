@@ -1,4 +1,39 @@
 ***Face-detector***
+
+### `set_web.py`
+这个文件使用了Streamlit库，一个用于创建数据应用程序的Python库。文件的主要功能包括：
+1. **页面配置**：设置了应用程序的布局为“wide”，使得页面更宽。
+2. **人脸库管理**：提供了一个界面，用于管理人脸库，包括上传文件、新建文件夹、删除文件夹和重命名文件夹等功能。
+3. **实时检测**：提供了实时视频流中的人脸检测功能，包括人脸比对、警报声音播放等功能。
+4. **控制台**：提供了一个控制台界面，用于设置和配置各种参数，如摄像头ID、检测间隔、分割区域等。
+这个文件主要用于创建一个集成了人脸库管理、实时检测和控制台功能的应用程序。
+### `service.py`
+这个文件主要包含了与`set_web.py`文件配合使用的服务功能。文件的主要功能包括：
+1. **人脸识别**：使用OpenCV和face_recognition库进行人脸识别和检测。
+2. **人脸比对**：将检测到的人脸与已知人脸库进行比对，以识别是否为已知人物。
+3. **声音播放**：能够播放预设的警示声音。
+4. **主循环**：包含了应用程序的主循环，负责持续监控视频流，检测人脸，并与人脸库进行比对。
+这个文件主要用于提供后台服务，如人脸识别、比对和声音播放等功能，以支持`set_web.py`中的用户界面。
+这两个文件结合使用，可以创建一个功能丰富的人脸识别和监控系统。
+
+要使用这两个程序，您需要先确保它们在您的环境中正确安装和配置。以下是一般步骤，用于指导您如何使用这两个程序：
+安装和配置环境
+安装Streamlit：如果尚未安装Streamlit，您可以通过pip进行安装。
+pip install streamlit
+安装其他依赖：根据set_web.py和service.py文件中的依赖项，您可能需要安装额外的库，例如face_recognition和simpleaudio。
+配置文件：两个程序都使用了一些配置文件，如摄像头ID、检测间隔、分割区域等。您需要创建这些配置文件，并设置相应的参数。
+使用set_web.py
+运行应用程序：在命令行中运行set_web.py文件。
+streamlit run set_web.py
+人脸库管理：在应用程序的左侧栏中，您可以看到“人脸库管理”选项。点击它，您可以上传新的人脸图片，管理文件夹和文件。
+实时检测：在应用程序的左侧栏中，点击“实时检测”选项，您将进入实时视频流界面。在这里，您可以进行人脸比对和设置警报声音。
+控制台：在应用程序的左侧栏中，点击“控制台”选项，您将进入控制台界面。在这里，您可以配置和设置各种参数。
+使用service.py
+后台服务：service.py是一个后台服务程序，它需要持续运行以提供人脸识别和比对功能。您可以使用一个服务管理工具（如systemd、supervisord等）来启动和停止这个服务。
+监控视频流：当service.py运行时，它会持续监控视频流，并在检测到人脸时执行相应的操作。
+请注意，这两个程序需要根据您的具体需求进行适当的配置和调整。此外，确保您的环境中已经安装了所有必需的库和依赖项。如果您遇到任何问题，可以参考Streamlit和OpenCV的官方文档，以及这两个程序的代码注释，以获取更多帮助和指导。
+
+
 This file is mainly used to provide background services such as face recognition, comparison, and sound playback to support the user interface in the set_web.py.
 set_web.py
     This file uses the Streamlit library, a Python library for creating data applications. The main features of the file include:
