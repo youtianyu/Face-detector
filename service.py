@@ -86,7 +86,7 @@ def play_alert2_sound():
     except:
         print(time.time(),"无法播放警示音2")
 # 检测人脸
-def detect_faces(image, polygon_points,scaleFactor=1.05, minNeighbors=10):
+def detect_faces(image, polygon_points,scaleFactor=1.05, minNeighbors=10,minSize=(30,30),maxSize=(500,500)):
     global ls_t
     print(time.time(),'检测人脸')
     s_t = time.time()
@@ -99,7 +99,7 @@ def detect_faces(image, polygon_points,scaleFactor=1.05, minNeighbors=10):
     # 加载人脸识别模型
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     # masked_image = cv2.cvtColor(masked_image, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(masked_image, scaleFactor, minNeighbors)
+    faces = face_cascade.detectMultiScale(masked_image, scaleFactor, minNeighbors,maxSize=maxSize,minSize=minSize)
     print(time.time(),"检测结束，用时:",round(time.time()-s_t,3),'秒，检测人脸数',len(faces))
     if os.path.exists(".faces"):
         ls_t = time.time()
@@ -210,7 +210,7 @@ def main_loop():
                 cap = cv2.VideoCapture(camera_id)
                 continue
             if time.time() - ls_t >10:
-                faces = detect_faces(frame, polygon_points,scaleFactor, minNeighbors)
+                faces = detect_faces(frame, polygon_points,scaleFactor, minNeighbors,minSize=(face_size_limits["min"],face_size_limits["min"]),maxSize=(face_size_limits["max"],face_size_limits["max"]))
                 for (x, y, w, h) in faces:
                     if face_size_limits["min"] <= max(w, h) <= face_size_limits["max"]:
                         print(time.time(),"检测到符合标准的人脸,释放摄像头")
@@ -247,7 +247,7 @@ def main_loop():
                     print(time.time(),"摄像头读取失败")
                     os.remove(".show")
                     continue
-                faces = detect_faces(frame, polygon_points,scaleFactor, minNeighbors)
+                faces = detect_faces(frame, polygon_points,scaleFactor, minNeighbors,minSize=(face_size_limits["min"],face_size_limits["min"]),maxSize=(face_size_limits["max"],face_size_limits["max"]))
                 #将图片保存到本地
                 show = frame.copy()
                 #绘制多边形
